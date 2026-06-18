@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Tracker - Premium Dashboard</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
+        }
+
+        body {
+            background-color: #6a11cb;
+            background: linear-gradient(135deg, #510a9c, #8e44ad);
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .phone-wrapper {
+            width: 100%;
+            max-width: 480px;
+            background: #f7f9fc;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            margin: 10px auto;
+        }
+
+        /* Top Profile Banner */
+        .profile-banner {
+            background: linear-gradient(135deg, #ffb347, #ffcc33);
+            padding: 30px 20px 25px 20px;
+            border-bottom-left-radius: 35px;
+            border-bottom-right-radius: 35px;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(255, 179, 71, 0.4);
+        }
+
+        .app-title {
+            text-align: center;
+            color: #fff;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+            letter-spacing: 0.5px;
+        }
+
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 65px;
+            height: 65px;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid rgba(255,255,255,0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: #ffb347;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .user-info h2 {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .user-info p {
+            color: rgba(255,255,255,0.9);
+            font-size: 13px;
+            margin-top: 2px;
+        }
+
+        .role-pill {
+            display: inline-block;
+            background: rgba(255,255,255,0.8);
+            color: #e67e22;
+            padding: 3px 12px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 8px;
+            text-transform: uppercase;
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .feature-card .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .feature-card .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        /* Action Response Status Box */
+        .status-container {
+            padding: 0 20px;
+            margin-bottom: 15px;
+        }
+        #statusBox {
+            background: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #718096;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+            border-left: 4px solid #cbd5e0;
+        }
+
+        /* Tables Container Styling */
+        .data-section {
+            padding: 0 20px 20px 20px;
+        }
+
+        .section-card {
+            background: white;
+            border-radius: 18px;
+            padding: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            margin-bottom: 20px;
+        }
+
+        .section-card h3 {
+            font-size: 14px;
+            color: #2d3748;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        th, td {
+            padding: 10px 8px;
+            text-align: left;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        th {
+            color: #718096;
+            font-weight: 600;
+            background: #f7fafc;
+        }
+
+        .badge {
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        .badge-active { background: #fff3cd; color: #856404; }
+        .badge-done { background: #d4edda; color: #155724; }
+    </style>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#8e44ad">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+</head>
+<body>
+
+<div class="phone-wrapper">
+    <div class="profile-banner">
+        <div class="app-title">✨ Attendance Tracker</div>
+        <div class="user-row">
+            <div class="avatar">A</div>
+            <div class="user-info">
+                <h2 id="userName">Akhlad</h2>
+                <p id="userDept">Artificial Soft / Engineering</p>
+                <div class="role-pill" id="rolePill">Master / Admin</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="features-grid">
+        <div class="feature-card" onclick="triggerPunchIn()">
+            <span class="icon">☀️</span>
+            <div class="title">Punch In</div>
+        </div>
+        <div class="feature-card" onclick="triggerPunchOut()">
+            <span class="icon">🌙</span>
+            <div class="title">Punch Out</div>
+        </div>
+        <div class="feature-card" onclick="alert('Map tracking interface coming soon!')">
+            <span class="icon">📍</span>
+            <div class="title">Set Location</div>
+        </div>
+        <div class="feature-card" onclick="alert('Employee roster database linked!')">
+            <span class="icon">📋</span>
+            <div class="title">Employee List</div>
+        </div>
+    </div>
+
+    <div class="status-container">
+        <div id="statusBox">Tap 'Punch In' card to log your shift status.</div>
+    </div>
+
+    <div class="data-section">
+        <div class="section-card">
+            <h3>📅 My Shift Log</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>In</th>
+                        <th>Out</th>
+                    </tr>
+                    </thead>
+                    <tbody id="personalTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section-card" id="adminView" style="display:none;">
+            <h3>👑 Master Attendance Console</h3>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Emp</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody id="adminTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const userId = 1;
+    const role = "ADMIN";
+    let currentAttendanceId = null;
+
+    window.onload = function() {
+        if(role === "ADMIN") {
+            document.getElementById('adminView').style.display = "block";
+            loadAdminData();
+        }
+        loadPersonalHistory();
+    };
+
+    function loadPersonalHistory() {
+        fetch(`/api/attendance/user/${userId}`)
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('personalTable');
+                tbody.innerHTML = "";
+                // Sort to keep latest on top
+                data.reverse().forEach(log => {
+                    const outTime = log.punchOutTime ? log.punchOutTime.substring(0,8) : `<span class="badge badge-active">Active</span>`;
+                    tbody.innerHTML += `<tr>
+                    <td><b>${log.date}</b></td>
+                    <td>${log.punchInTime.substring(0,8)}</td>
+                    <td>${outTime}</td>
+                </tr>`;
+                });
+            });
+    }
+
+    function loadAdminData() {
+        fetch(`/api/attendance/user/${userId}`)
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('adminTable');
+                tbody.innerHTML = "";
+                data.forEach(log => {
+                    tbody.innerHTML += `<tr>
+                    <td>USR-${userId}</td>
+                    <td>${log.date}</td>
+                    <td><span class="badge badge-done">${log.status}</span></td>
+                </tr>`;
+                });
+            });
+    }
+
+    function triggerPunchIn() {
+        fetch('/api/attendance/punch-in', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user: { id: userId } })
+        })
+            .then(res => {
+                if (!res.ok) {
+                    // If backend throws an error (like 400 Bad Request for already punched-in)
+                    return res.json().then(err => { throw new Error(err.error); });
+                }
+                return res.json();
+            })
+            .then(data => {
+                currentAttendanceId = data.id;
+                const sBox = document.getElementById('statusBox');
+                sBox.style.borderLeftColor = "#2ecc71";
+                sBox.innerHTML = `☀️ Punched In at ${data.punchInTime.substring(0,8)}`;
+                loadPersonalHistory();
+                if(role === "ADMIN") loadAdminData();
+            })
+            .catch(error => {
+                // Display custom restricted message in red border
+                const sBox = document.getElementById('statusBox');
+                sBox.style.borderLeftColor = "#e74c3c";
+                sBox.innerHTML = `⚠️ ${error.message}`;
+            });
+    }
+
+    function triggerPunchOut() {
+        if (!currentAttendanceId) currentAttendanceId = 1;
+        fetch(`/api/attendance/punch-out/${currentAttendanceId}`, { method: 'PUT' })
+            .then(res => res.text())
+            .then(data => {
+                const sBox = document.getElementById('statusBox');
+                sBox.style.borderLeftColor = "#e74c3c";
+                sBox.innerHTML = `🌙 ${data}`;
+                loadPersonalHistory();
+                if(role === "ADMIN") loadAdminData();
+            })
+            .catch(error => {
+                console.error("Error pushing out:", error);
+            });
+    }
+</script>
+
+</body>
+</html>

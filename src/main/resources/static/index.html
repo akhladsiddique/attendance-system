@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Management System - Login</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #71b7e6, #9b59b6);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 15px 25px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-container h2 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus {
+            border-color: #9b59b6;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: #9b59b6;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-login:hover {
+            background: #8e44ad;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: 600;
+        }
+
+    </style>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#8e44ad">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+</head>
+<body>
+
+<div class="login-container">
+    <h2>System Login</h2>
+    <form id="loginForm">
+        <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" required placeholder="Enter username">
+        </div>
+        <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" required placeholder="Enter password">
+        </div>
+        <button type="submit" class="btn-login">Login</button>
+    </form>
+    <div id="message"></div>
+</div>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Default form submit reload rokne ke liye
+
+        const usernameInput = document.getElementById('username').value;
+        const passwordInput = document.getElementById('password').value;
+        const messageDiv = document.getElementById('message');
+
+        // Backend Login API Payload
+        const loginData = {
+            username: usernameInput,
+            password: passwordInput
+        };
+
+        // Fetch API ka use karke backend hit karenge
+        fetch('/api/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginData)
+        })
+            .then(response => response.text())
+            .then(data => {
+                if (data.includes("Login Successful")) {
+                    messageDiv.style.color = "green";
+                    messageDiv.innerText = data;
+                    // Kuch seconds baad attendance page par dashboard par redirect karne ke liye space:
+                     window.location.href = "/dashboard.html";
+                } else {
+                    messageDiv.style.color = "red";
+                    messageDiv.innerText = data;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                messageDiv.style.color = "red";
+                messageDiv.innerText = "Server Error! Is your backend running?";
+            });
+    });
+</script>
+
+</body>
+</html>

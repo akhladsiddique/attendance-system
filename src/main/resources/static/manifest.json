@@ -1,0 +1,17 @@
+{
+  "name": "Attendance Tracker System",
+  "short_name": "Attendance",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#6a11cb",
+  "theme_color": "#8e44ad",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/5569/5569264.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
